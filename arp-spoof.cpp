@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 
     char* dev = argv[1];
 	char errbuf[PCAP_ERRBUF_SIZE];
-	pcap_t* handle = pcap_open_live(dev, BUFSIZ, 1, 1000, errbuf);
+	pcap_t* handle = pcap_open_live(dev, BUFSIZ, 1, 1000, errbuf); // 여기서 1000이라는 1로 바꾸면 네트워크가 느려지는 속도가 좀 줄어든다. 이게 무슨 read time이라서 그렇다더라..
 	if (handle == nullptr) {
 		fprintf(stderr, "couldn't open device %s(%s)\n", dev, errbuf);
 		return -1;
