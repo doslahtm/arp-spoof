@@ -10,6 +10,7 @@
 #include <map>
 #include <iostream>
 #include <time.h>
+#include <sys/time.h>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ void usage()
 
 int main(int argc, char* argv[])
 {
-    clock_t start, end;
+    struct timeval start = {}, end = {};
     
     /// argument check!!
     if (argc % 2 != 0 || argc < 4 )
@@ -200,6 +201,7 @@ int main(int argc, char* argv[])
 
     do
     {
+        printf("arp infect\n");
         for(uint32_t i = 0; i < flow_cnt; i++)
         {
             iter = sender_ip_mac_map.find(argv[2 * i + 2]);
@@ -229,11 +231,13 @@ int main(int argc, char* argv[])
             }
         }
 
-        start = clock();
+        gettimeofday(&start, NULL);
         while(true)
         {
-            end = clock();
-            if ( ((int)(end - start)/CLOCKS_PER_SEC) >= 5 )
+            printf("while\n");
+            gettimeofday(&end, NULL);
+            double time = end.tv_sec + end.tv_usec / 1000000.0 - start.tv_sec - start.tv_usec / 1000000.0;
+            if ( time >= 1 )
             {
                 break;
             }
